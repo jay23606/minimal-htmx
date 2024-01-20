@@ -22,6 +22,7 @@
 <div id="result2">
 </div>
 
+
 <div id='container'>
     <div><label>First Name</label>: Joe</div>
     <div><label>Last Name</label>: Blow</div>
@@ -31,16 +32,20 @@
     </button>
 </div>
 
+
+
 <script>
 (function() {
 	HTMLElement.prototype.on = function (e, fn){this.addEventListener(e, fn)}
 	HTMLElement.prototype.attr = function(attribute, value){return value === undefined ? this.getAttribute(attribute) : (this.setAttribute(attribute, value), this)}
 	const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
 
-	document.addEventListener('DOMContentLoaded', () => {
-        const els = $$('[jx-get],[jx-put]');
+	document.addEventListener('DOMContentLoaded', () => run() );
+	
+	const run = () => {
+		const els = $$('[jx-get],[jx-put]');
         els.forEach(el => applyLogic(el));
-    });
+	}
 
 	const applyLogic = (el) => {
 		const url = el.attr('jx-get') || el.attr('jx-put'), jxTarget = el.attr('jx-target'), jxTrigger = el.attr('jx-trigger');
@@ -67,8 +72,11 @@
 		if (!response.ok) throw new Error('Network response was not ok');
 		const data = await response.text();
 		targetEl.innerHTML = data;
+		run(); //should we run again since we may have new attributes to consider?
     }
 })();
+	
 </script>
+
 </body>
 </html>
