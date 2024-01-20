@@ -8,3 +8,6 @@ If jx-trigger doesn't exist then it will assume a click event and if jx-target d
 I tested jx-trigger with mouseover event and it seems to work and removed jx-target and it seems to work
 
 Need to add more tests to see what else it can support and what needs to be added
+
+Try it:
+https://raw.githack.com/jay23606/minimal-htmx/master/index.html
