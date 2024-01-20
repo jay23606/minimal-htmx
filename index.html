@@ -8,18 +8,27 @@
 </head>
 <body>
 
-<div hx-get="index.html" hx-target="#result">
+<div hx-get="test2.html" hx-target="#result">
     <button>Load Data</button>
 </div>
 
 <div id="result">
 </div>
 
-<div jx-get="index.html" jx-target="#result2" jx-trigger='mouseover'>
+<div jx-get="test2.html" jx-target="#result2" jx-trigger='mouseover'>
     <button>Load Data</button>
 </div>
 
 <div id="result2">
+</div>
+
+<div id='container'>
+    <div><label>First Name</label>: Joe</div>
+    <div><label>Last Name</label>: Blow</div>
+    <div><label>Email</label>: joe@blow.com</div>
+    <button jx-get="test3.html" jx-target='#container'>
+    Click To Edit
+    </button>
 </div>
 
 <script>
@@ -27,33 +36,39 @@
 	HTMLElement.prototype.on = function (e, fn){this.addEventListener(e, fn)}
 	HTMLElement.prototype.attr = function(attribute, value){return value === undefined ? this.getAttribute(attribute) : (this.setAttribute(attribute, value), this)}
 	const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
-    
+
 	document.addEventListener('DOMContentLoaded', () => {
-        const els = $$('[jx-get]');
+        const els = $$('[jx-get],[jx-put]');
         els.forEach(el => applyLogic(el));
     });
 
-    const applyLogic = (el) => {
-        const url = el.attr('jx-get'), jxTarget = el.attr('jx-target'), jxTrigger = el.attr('jx-trigger');
-		jxTrigger ? el.on(jxTrigger, async () => await fetchData(url, jxTarget)) : el.on('click', async () => await fetchData(url, jxTarget));
-    }
+	const applyLogic = (el) => {
+		const url = el.attr('jx-get') || el.attr('jx-put'), jxTarget = el.attr('jx-target'), jxTrigger = el.attr('jx-trigger');
+		let targetEl = el;
+		if (jxTarget) targetEl = $(jxTarget);
+		if (el instanceof HTMLFormElement) {
+			//If it's a form, attach the submit event handler
+			el.on('submit', async (e) => {
+				e.preventDefault();
+				await fetchData(url, targetEl, { method: 'PUT', body: new FormData(el) });
+			});
+		} else {
+			//Handle the click or trigger event for other elements
+			if (jxTrigger) {
+				el.on(jxTrigger, async () => await fetchData(url, targetEl));
+			} else {
+				el.on('click', async () => await fetchData(url, targetEl));
+			}
+		}
+	}
 
-    const fetchData = async (url, jxTarget) => {
-		const response = await fetch(url);
+    const fetchData = async (url, targetEl, options = {}) => {
+		const response = await fetch(url, options);
 		if (!response.ok) throw new Error('Network response was not ok');
 		const data = await response.text();
-		if (jxTarget) {
-			var targetEl = $(jxTarget);
-			if (!targetEl) {
-				console.error('Target el not found:', jxTarget);
-				return;
-			}
-			targetEl.innerHTML = data;
-		} else el.innerHTML = data;
+		targetEl.innerHTML = data;
     }
 })();
-	
 </script>
-
 </body>
 </html>
