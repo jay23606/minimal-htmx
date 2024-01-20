@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal htmx Example</title>
+    <script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.js"></script>
+</head>
+<body>
+
+<div hx-get="test2.html" hx-target="#result">
+    <button>Load Data</button>
+</div>
+
+<div id="result">
+</div>
+
+<div jx-get="test2.html" jx-target="#result2">
+    <button>Load Data</button>
+</div>
+
+<div id="result2">
+</div>
+
+<script>
+(function() {
+	HTMLElement.prototype.on = function (e, fn){this.addEventListener(e, fn)}
+	HTMLElement.prototype.attr = function(attribute, value){return value === undefined ? this.getAttribute(attribute) : (this.setAttribute(attribute, value), this)}
+	const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
+    
+	document.addEventListener('DOMContentLoaded', () => {
+        const els = $$('[jx-get]');
+        els.forEach(el => applyLogic(el));
+    });
+
+    const applyLogic = (el) => {
+        const url = el.attr('jx-get'), jxTarget = el.attr('jx-target'), jxTrigger = el.attr('jx-trigger');
+		jxTrigger ? el.on(jxTrigger, async () => await fetchData(url, jxTarget)) : el.on('click', async () => await fetchData(url, jxTarget));
+    }
+
+    const fetchData = async (url, jxTarget) => {
+		const response = await fetch(url);
+		if (!response.ok) throw new Error('Network response was not ok');
+		const data = await response.text();
+		if (jxTarget) {
+			var targetEl = $(jxTarget);
+			if (!targetEl) {
+				console.error('Target el not found:', jxTarget);
+				return;
+			}
+			targetEl.innerHTML = data;
+		} else el.innerHTML = data;
+    }
+})();
+	
+</script>
+
+</body>
+</html>
