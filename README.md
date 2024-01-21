@@ -1,7 +1,9 @@
 # minimal-htmx
 A minimal implementation of HTMX that I am writing to understand how HTMX might work without looking at the HTMX source code
 
-So far it will look for elements with jx-get attributes and for those elements it will also look to see if it has jx-target and jx-trigger attributes
+So far it will look for elements with jx-get/jx-put attributes and for those elements it will also look to see if it has jx-target and jx-trigger attributes
+
+For jx-put it will assume it is applied to a form element and do a submit action otherwise it will use jx-trigger event
 
 If jx-trigger doesn't exist then it will assume a click event and if jx-target doesn't exist then it will replace itself
 
