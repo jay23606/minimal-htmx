@@ -15,7 +15,7 @@
 <div id="result">
 </div>
 
-<div jx-get="test2.html" jx-target="#result2" jx-trigger='mouseover'>
+<div jx-get="test2.html" jx-target="#result2">
     <button>Load Data</button>
 </div>
 
@@ -35,6 +35,7 @@
 
 
 <script>
+var index = 1;
 (function() {
 	HTMLElement.prototype.on = function (e, fn){this.addEventListener(e, fn)}
 	HTMLElement.prototype.attr = function(attribute, value){return value === undefined ? this.getAttribute(attribute) : (this.setAttribute(attribute, value), this)}
@@ -44,10 +45,16 @@
 	
 	const run = () => {
 		const els = $$('[jx-get],[jx-put]');
-        	els.forEach(el => applyLogic(el));
+        els.forEach(el => {
+			if (!el.attr('data-jx-applied')) {
+				applyLogic(el);
+				el.attr('data-jx-applied', 'true');
+			}
+		});
 	}
 
 	const applyLogic = (el) => {
+		console.log(index++);
 		const url = el.attr('jx-get') || el.attr('jx-put'), jxTarget = el.attr('jx-target'), jxTrigger = el.attr('jx-trigger');
 		let targetEl = el;
 		if (jxTarget) targetEl = $(jxTarget);
@@ -72,9 +79,7 @@
 		if (!response.ok) throw new Error('Network response was not ok');
 		const data = await response.text();
 		targetEl.innerHTML = data;
-	    	//should we run again since we may have new attributes to consider?
-	    	//should probably tag elements already handled somehow
-		run(); 
+		run();
     }
 })();
 	
