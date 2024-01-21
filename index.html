@@ -45,7 +45,7 @@ var index = 1;
 	
 	const run = () => {
 		const els = $$('[jx-get],[jx-put]');
-        els.forEach(el => {
+        	els.forEach(el => {
 			if (!el.attr('data-jx-applied')) {
 				applyLogic(el);
 				el.attr('data-jx-applied', 'true');
