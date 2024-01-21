@@ -44,12 +44,10 @@ var index = 1;
 	document.addEventListener('DOMContentLoaded', () => run() );
 	
 	const run = () => {
-		const els = $$('[jx-get],[jx-put]');
-        	els.forEach(el => {
-			if (!el.attr('data-jx-applied')) {
-				applyLogic(el);
-				el.attr('data-jx-applied', 'true');
-			}
+		const els = $$('[jx-get]:not([data-jx-applied]), [jx-put]:not([data-jx-applied])');
+		els.forEach(el => {
+			applyLogic(el);
+			el.setAttribute('data-jx-applied', 'true');
 		});
 	}
 
