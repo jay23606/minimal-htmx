@@ -20,19 +20,20 @@
 	const fetchData = async (url, targetEl, el, options = {}) => {
 		const hxBefore = el.attr('hx-before'), hxAfter = el.attr('hx-after'), hxHeaders = el.attr('hx-headers'),
 			hxVals = el.attr('hx-vals'), hxSwap = el.attr('hx-swap'), hxSelect = el.attr('hx-select');
-		if (hxBefore) eval(hxBefore);
+		if (hxBefore) (new Function('event', hxBefore))(event);
 		const method = options.method || 'get';
 		if (hxVals) method === 'get' ? url += '?' + new URLSearchParams(json(hxVals)) : options.body = json(hxVals);
 		const response = await fetch(url, { ...options, method, headers: { ...options.headers, ...json(hxHeaders) } });
 		const data = await response.text();
 		applySwap(targetEl, data, hxSwap, hxSelect);
-		if (hxAfter) eval(hxAfter);
+		if (hxAfter) (new Function('data', 'el', hxAfter))(data, el);
 		run();
 	};
 
 	const json = s => s ? s.startsWith('js:') ? Function(`return ${s.slice(3)}`)() : JSON.parse(s.replace(/'/g, '"')) : {};
 	
 	const applySwap = (el, data, hxSwap, hxSelect) => {
+		if (hxSwap === 'none') return;
 		const content = (hxSelect) ? $DP(data, hxSelect) : data;
 		const actions = {
 			'outerHTML': () => el.outerHTML = content,
