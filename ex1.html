@@ -57,7 +57,7 @@
 	</script>
 </head>
 <body>
-    <label for="autocomplete">Search Countries:</label>
+    <label for="autocomplete">Search Names:</label>
     <input id="autocomplete" type="text" hx-trigger="keyup" hx-get="https://jsonplaceholder.typicode.com/users" hx-after="parseJsonResponse(data,el)" hx-swap="none" hx-target="#autocomplete-results">
     <div id="autocomplete-results"></div>
 	
