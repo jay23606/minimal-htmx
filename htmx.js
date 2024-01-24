@@ -22,7 +22,7 @@
 			hxVals = el.attr('hx-vals'), hxSwap = el.attr('hx-swap'), hxSelect = el.attr('hx-select');
 		if (hxBefore) (new Function('event', hxBefore))(event);
 		const method = options.method || 'get';
-		if (hxVals) method === 'get' ? url += '?' + new URLSearchParams(json(hxVals)) : options.body = json(hxVals);
+		if (hxVals) method === 'get' ? url += '?' + new URLSearchParams(json(hxVals,el)) : options.body = json(hxVals,el);
 		const response = await fetch(url, { ...options, method, headers: { ...options.headers, ...json(hxHeaders) } });
 		const data = await response.text();
 		applySwap(targetEl, data, hxSwap, hxSelect);
@@ -30,7 +30,7 @@
 		run();
 	};
 
-	const json = s => s ? s.startsWith('js:') ? Function(`return ${s.slice(3)}`)() : JSON.parse(s.replace(/'/g, '"')) : {};
+	const json = (s, el) => s ? (s.startsWith('js:') ? Function('el',`return ${s.slice(3)}`)(el) : JSON.parse(s.replace(/'/g, '"'))) : {};
 	
 	const applySwap = (el, data, hxSwap, hxSelect) => {
 		if (hxSwap === 'none') return;
