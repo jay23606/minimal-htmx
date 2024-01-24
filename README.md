@@ -12,6 +12,3 @@ I tested jx-trigger with mouseover event and it seems to work and removed jx-tar
 Need to add more tests to see what else it can support and what needs to be added
 
 I've also added an 'Active Search' example for both ASP (classic, JScript) and ASPX (web forms) and the min-htmx project has a csproj (razor pages) usage example
-
-Try it:
-https://raw.githack.com/jay23606/minimal-htmx/master/index.html
