@@ -25,7 +25,7 @@
 			if (hxVals) (method === 'get') ? url += '?' + new URLSearchParams(json(hxVals)) : options.body = json(hxVals);
 			const response = await fetch(url, { ...options, method, headers: { ...options.headers, ...json(hxHeaders) } });
 			const data = await response.text();
-			const hxSelect = el.getAttribute('hx-select');
+			const hxSelect = el.attr('hx-select');
 			applySwap(targetEl, data, hxSwap, hxSelect);
 			if (hxAfter) eval(hxAfter);
 			run();
