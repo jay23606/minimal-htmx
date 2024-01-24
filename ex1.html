@@ -66,7 +66,7 @@
     function parseJsonResponse(data, el) {
 		var obj = JSON.parse(data);
 		var filteredNames = obj
-			.filter(obj => obj.name.includes(el.value))
+			.filter(obj => obj.name.toLowerCase().includes(el.value.toLowerCase()))
 			.map(obj => `<li>${obj.name}</li>`)
 			.join(''); 
         var hxTarget = $(el.attr('hx-target'));
