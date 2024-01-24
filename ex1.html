@@ -41,6 +41,7 @@
 		const json = s => s ? s.startsWith('js:') ? Function(`return ${s.slice(3)}`)() : JSON.parse(s.replace(/'/g, '"')) : {};
 		
 		const applySwap = (el, data, hxSwap, hxSelect) => {
+			if (hxSwap === 'none') return;
 			const content = (hxSelect) ? $DP(data, hxSelect) : data;
 			const actions = {
 				'outerHTML': () => el.outerHTML = content,
@@ -57,7 +58,7 @@
 </head>
 <body>
     <label for="autocomplete">Search Countries:</label>
-    <input id="autocomplete" type="text" hx-trigger="keyup" hx-get="https://jsonplaceholder.typicode.com/users" hx-after="parseJsonResponse(data,el)" hx-target="#autocomplete-results">
+    <input id="autocomplete" type="text" hx-trigger="keyup" hx-get="https://jsonplaceholder.typicode.com/users" hx-after="parseJsonResponse(data,el)" hx-swap="none" hx-target="#autocomplete-results">
     <div id="autocomplete-results"></div>
 	
 	<script>
