@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="htmx.js"></script>
+  <script src="https://htmx.org/js/htmx.js"></script>
   <script src="hx-class.js"></script>
   <script type="text/yaml" id="classAttributeMap">
     my-attrs-1:
@@ -21,7 +21,7 @@
 <body>
   <div hx-ext="hx-class">
     <input name="example" hx-class="my-attrs-1" />
-    <input name="another-example" hx-class="my-attrs-2 my-attrs-1" />
+    <input hx-get="https://jsonplaceholder.typicode.com/users" hx-class="my-attrs-2 my-attrs-1" />
   </div>
 </body>
 </html>
