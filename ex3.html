@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="htmx.js"></script>
+  <script src="hxClass.js"></script>
+  <script type="text/yaml" id="classAttributeMap">
+    my-attrs-1:
+      hx-patch: "/person?id=some-unique-id"
+      hx-trigger: "change"
+      hx-swap: "outerHTML"
+
+    my-attrs-2:
+      hx-patch: "/another-person?id=some-unique-id"
+      hx-trigger: "input"
+      hx-swap: "innerHTML"
+  </script>
+</head>
+<body>
+  <div>
+    <input name="example" hx-class="my-attrs-1" />
+    <input name="another-example" hx-class="my-attrs-2" />
+  </div>
+</body>
+</html>
