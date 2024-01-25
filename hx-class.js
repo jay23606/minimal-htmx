@@ -1,68 +1,41 @@
 (function () {
-    // Function to merge two objects
-    function mergeObjects(obj1, obj2) {
-        for (var key in obj2) {
-            if (obj2.hasOwnProperty(key)) {
-                obj1[key] = obj2[key];
-            }
-        }
-        return obj1;
-    }
+  HTMLElement.prototype.attr = function (a, v) { return v === undefined ? this.getAttribute(a) : (this.setAttribute(a, v), this); };
+  HTMLElement.prototype.$ = function (selector) { return this.querySelector(selector); };
+  HTMLElement.prototype.$$ = function (selector) { return this.querySelectorAll(selector); };
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => document.querySelectorAll(s);
+  $el = (el, attrs = {}) => Object.assign(document.createElement(el), attrs);
 
-    // Define htmx extension 'hx-class'
-    htmx.defineExtension('hx-class', {
-        onEvent: function (name, evt) {
-            if (name === "htmx:configRequest") {
-                // Find the closest element with 'hx-class' attribute
-                var hxClassElt = htmx.closest(evt.detail.elt, "[hx-class],[data-hx-class]");
-                if (hxClassElt) {
-                    // Get the attribute value and evaluate it as needed
-                    var hxClassValue = hxClassElt.getAttribute("hx-class") || hxClassElt.getAttribute("data-hx-class");
+  const applyAttrs = (el, attrs) => Object.entries(attrs).forEach(([key, value]) => el.attr(key, value));
 
-                    // Access the element and apply class attributes
-                    var element = evt.detail.elt;
-                    const applyAttributes = (element, attributes) => Object.entries(attributes).forEach(([key, value]) => element.hasAttribute(key) || element.setAttribute(key, value));
-                    const applyClassAttributes = async (element, classNames) => {
-                        const yamlData = document.getElementById('classAttributeMap').textContent;
-                        const classAttributeMap = jsyaml.load(yamlData);
-
-                        classNames.split(' ').forEach(className => {
-                            const classAttributes = classAttributeMap[className] || {};
-                            applyAttributes(element, classAttributes);
-                        });
-                    };
-
-                    // Apply class attributes based on hx-class value
-                    applyClassAttributes(element, hxClassValue);
-                }
-            }
-        }
+  const applyClassAttrs = (el, classNames) => {
+    const yamlScripts = $$('script[type="text/yaml"]');
+    yamlScripts.forEach(script => {
+      const yamlData = script.textContent;
+      const classAttributeMap = jsyaml.load(yamlData);
+      classNames.split(' ').forEach(className => applyAttrs(el, classAttributeMap[className] || {}));
     });
+  };
 
-    // Dynamically load js-yaml library
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/js-yaml/dist/js-yaml.min.js';
-    script.onload = () => {
-        // After js-yaml is loaded, execute the main script
-        loadAndApplyAttributes();
-    };
+  const loadScript = (src, callback) => {
+    const script = $el('script', { src: src, onload: callback });
     document.head.appendChild(script);
+  };
 
-    // Main script
-	const loadAndApplyAttributes = async () => {
-	  const applyAttributes = (element, attributes) => Object.entries(attributes).forEach(([key, value]) => element.hasAttribute(key) || element.setAttribute(key, value));
-	  const applyClassAttributes = async (element, classNames) => {
-		const yamlData = document.getElementById('classAttributeMap').textContent;
-		const classAttributeMap = jsyaml.load(yamlData);
+  const loadAndApplyAttrs = () => window.jsyaml ? applyAttrs() : loadScript('https://cdn.jsdelivr.net/npm/js-yaml/dist/js-yaml.min.js', processAttrs);
 
-		classNames.split(' ').forEach(className => {
-		  const classAttributes = classAttributeMap[className] || {};
-		  applyAttributes(element, classAttributes);
-		});
-	  };
-	  document.querySelectorAll('[hx-class]').forEach(element => {
-		const classNames = element.getAttribute('hx-class');
-		applyClassAttributes(element, classNames);
-	  });
-	};
+  const processAttrs = () => {
+    $$('[hx-ext="hx-class"]').forEach(hxClassExt => {
+      hxClassExt.$$('[hx-class]').forEach(el => {
+        applyClassAttrs(el, el.attr('hx-class'));
+        //htmx.process(el);
+      });
+      htmx.process(hxClassExt); //seems like a decent place to re-process nodes
+    });
+    //htmx.process(document.body);
+  };
+
+  document.addEventListener('DOMContentLoaded', loadAndApplyAttrs);
+  //seems to cause an infinite loop
+  //htmx.defineExtension('hx-class', { onEvent: (name, evt) => (name.includes("htmx:before") || name.includes("htmx:after")) && loadAndApplyAttrs() });
 })();
