@@ -11,28 +11,35 @@
 	
 	//Minimal custom YAML parser
 	const parseYamlish = (text) => {
-	  const getNextIdx = (m, i, t) => m[i + 1] ? t.indexOf(m[i + 1], t.indexOf(m[i])) : t.length;
-	  const obj = {};
-	  const parseClass = (classText, level) => {
-		const clsObj = {};
-		const regex = new RegExp(`^\\s{${4 * level}}([-_\\w:.]+):`, 'gm');
-		const propMatches = classText.match(regex) || [];
-		propMatches.forEach((propMatch, j) => {
-		  const prop = propMatch.trim().slice(0, -1);
-		  const propEndIdx = getNextIdx(propMatches, j, classText);
-		  const value = classText.substring(classText.indexOf(propMatch) + propMatch.length, propEndIdx);
-		  clsObj[prop] = value.trim().includes(':') ? parseClass(value, level + 1) : value.trim();
+		const getNextIdx = (m, i, t) => m[i + 1] ? t.indexOf(m[i + 1], t.indexOf(m[i])) : t.length;
+		const obj = {};
+		const parseClass = (classText, level) => {
+			const clsObj = {};
+			const regex = new RegExp(`^\\s{${4 * level}}([-_\\w:.]+):`, 'gm');
+			const propMatches = classText.match(regex) || [];
+			let lastIndex = 0;
+			propMatches.forEach((propMatch, j) => {
+				const prop = propMatch.trim().slice(0, -1);
+				const propStartIdx = classText.indexOf(propMatch, lastIndex);
+				const propEndIdx = getNextIdx(propMatches, j, classText);
+				const value = classText.substring(propStartIdx + propMatch.length, propEndIdx);
+				clsObj[prop] = parseClass(value, level + 1);
+				lastIndex = propEndIdx;
+			});
+			if (Object.keys(clsObj).length === 0) return classText.trim();
+			return clsObj;
+		};
+		const classMatches = text.match(/^([-_\w:.]+):/gm) || [];
+		let lastIndex = 0;
+		classMatches.forEach((clsMatch, i) => {
+			const cls = clsMatch.trim().slice(0, -1);
+			const clsStartIdx = text.indexOf(clsMatch, lastIndex);
+			const clsEndIdx = getNextIdx(classMatches, i, text);
+			const clsValue = text.substring(clsStartIdx + clsMatch.length, clsEndIdx);
+			obj[cls] = parseClass(clsValue, 1);
+			lastIndex = clsEndIdx;
 		});
-		return clsObj;
-	  };
-	  const classMatches = text.match(/^([-_\w:.]+):/gm) || [];
-	  classMatches.forEach((clsMatch, i) => {
-		const cls = clsMatch.trim().slice(0, -1);
-		const clsEndIdx = getNextIdx(classMatches, i, text);
-		const clsValue = text.substring(text.indexOf(clsMatch) + clsMatch.length, clsEndIdx);
-		obj[cls] = parseClass(clsValue, 1);
-	  });
-	  return obj;
+		return obj;
 	};
 	
 	const applyAttrs = (el, attrs) => Object.entries(attrs).forEach(([key, value]) => el.attr(key, value));
@@ -90,8 +97,8 @@
 			'prepend': () => el.innerHTML = content + el.innerHTML,
 			'before': () => el.insertAdjacentHTML('beforebegin', content),
 			'after': () => el.insertAdjacentHTML('afterend', content),
-			'innerHTML': () => el.innerHTML = content
+			'default': () => el.innerHTML = content
 		};
-		(actions[hxSwap] || actions['innerHTML'])();
+		(actions[hxSwap] || actions['default'])();
 	};
 })();
