@@ -5,10 +5,12 @@ my-attrs-1:
     hx-swap: outerHTML
     hx-swap2: outerHTML
 my-attrs-2:
-    hx-patch: /another-person?id=some-unique-id
+    hx-patch: https://jsonplaceholder.typicode.com/users/1
     hx-trigger: input
     hx-swap: innerHTML
 </script>
 <script src="mhtmx.js"></script>
 <input name="example" hx-class="my-attrs-2 my-attrs-1" hx-target='#target' />
 <div id='target'></div>
+<h2>Changing the input should trigger a request to typicode users endpoint</h2>
+<h2>Hit F12 to see that the attributes in the YAML section were added to the input</h2>
