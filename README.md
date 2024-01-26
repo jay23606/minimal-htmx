@@ -11,6 +11,6 @@ Demo of hx-class.js extension that lets you dynamically add attributes to elemen
 
 https://raw.githack.com/jay23606/minimal-htmx/master/ex3.html
 
-Version that uses minimal-htmx (mhtmx.js) and minimal custom YAML parser
+Version that uses minimal-htmx (mhtmx.js) and minimal custom YAML parser to implement hx-class attribute (similar to CSS classes but for html attributes)
 
 https://raw.githack.com/jay23606/minimal-htmx/master/ex4.html
