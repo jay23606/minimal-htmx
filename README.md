@@ -15,7 +15,7 @@ Version that uses mhtmx.js and minimal custom YAML parser to extract data for hx
 
 https://raw.githack.com/jay23606/minimal-htmx/master/ex4.html
 
-# Minimal htmx Library Documentation
+# Documentation
 
 ## `hx-class`
 - **Description:** Applies YAML-defined attributes to HTML elements based on their classes.
