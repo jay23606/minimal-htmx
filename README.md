@@ -19,7 +19,7 @@ https://raw.githack.com/jay23606/minimal-htmx/master/ex4.html
 
 ## `hx-class`
 - **Description:** Applies YAML-defined attributes to HTML elements based on their classes.
-- **Example:** `<div hx-class="my-class">...</div>`
+- **Example:** `<div hx-class="my-class my-class2">...</div>`
 
 ## `hx-get`, `hx-post`, `hx-put`, `hx-delete`, `hx-patch`
 - **Description:** Initiates a data-fetching action on specific events (e.g., click, change) using different HTTP methods.
