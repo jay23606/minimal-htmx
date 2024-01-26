@@ -41,8 +41,8 @@
 			'prepend': () => el.innerHTML = content + el.innerHTML,
 			'before': () => el.insertAdjacentHTML('beforebegin', content),
 			'after': () => el.insertAdjacentHTML('afterend', content),
-			'default': () => el.innerHTML = content
+			'innerHTML': () => el.innerHTML = content
 		};
-		(actions[hxSwap] || actions['default'])();
+		(actions[hxSwap] || actions['innerHTML'])();
 	};
 })();
