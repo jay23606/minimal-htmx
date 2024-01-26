@@ -1,7 +1,7 @@
 # minimal-htmx
 A minimal implementation of HTMX that I am writing to understand how HTMX might work without looking at the HTMX source code
 
-try it with an Active Search example that uses https://jsonplaceholder.typicode.com/users endpoint:
+try it with an Active Search example that uses jsonplaceholder.typicode.com/users endpoint:
 
 https://raw.githack.com/jay23606/minimal-htmx/master/ex1.html
 
