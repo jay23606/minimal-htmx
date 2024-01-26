@@ -30,7 +30,7 @@ https://raw.githack.com/jay23606/minimal-htmx/master/ex4.html
 - **Example:** `<button hx-get="/api/data" hx-target="#result">Load Data</button>`
 
 ## `hx-trigger`
-- **Description:** Overrides the default event type that triggers data fetching (default: 'click' or 'change').
+- **Description:** Overrides the default event type that triggers data fetching (default: 'click' or 'change' for inputs).
 - **Example:** `<input type="text" hx-get="/api/search" hx-trigger="keyup">`
 
 ## `hx-before`
