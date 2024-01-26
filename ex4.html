@@ -1,0 +1,14 @@
+<script type="text/yaml">
+my-attrs-1:
+    hx-patch: ./person?id=some-unique-id
+    hx-trigger: change
+    hx-swap: outerHTML
+    hx-swap2: outerHTML
+my-attrs-2:
+    hx-patch: /another-person?id=some-unique-id
+    hx-trigger: input
+    hx-swap: innerHTML
+</script>
+<script src="mhtmx.js"></script>
+<input name="example" hx-class="my-attrs-2 my-attrs-1" hx-target='#target' />
+<div id='target'></div>
