@@ -1,27 +1,8 @@
-# minimal-htmx (mhtmx.js)
+### minimal-htmx (mhtmx.js)
 
 A minimal implementation of HTMX that I am writing to understand how HTMX might work without looking at the HTMX source code.
 
-## Examples
-
-1. Try it with an Active Search example that uses the `jsonplaceholder.typicode.com/users` endpoint:
-
-   [View Example](https://raw.githack.com/jay23606/minimal-htmx/master/ex1.html)
-
-2. 'Active Search' examples are also provided for both ASP (classic, JScript) and ASPX (C# web forms). Additionally, the `min-htmx` project includes a Razor page usage example (cshtml).
-
-## Additional Demos
-
-- Demo of `hx-class.js` extension: This allows you to dynamically add attributes to elements in a similar fashion that class lets you add CSS classes, but it uses YAML. It relies on HTMX from [htmx.org](https://htmx.org) and an external YAML parser.
-
-   [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex3.html)
-
-- Version that uses `mhtmx.js` and a minimal custom YAML parser to extract data for the `hx-class` attribute (self-contained).
-
-   [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex4.html)
-
-
-# Documentation
+### Documentation
 
 ## `hx-class`
 - **Description:** Applies YAML-defined attributes to HTML elements based on their classes.
@@ -62,3 +43,21 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 ## `hx-select`
 - **Description:** Specifies a selector to extract content from the fetched data before applying it to the target element.
 - **Example:** `<button hx-get="/api/data" hx-target="#result" hx-select="p">Load Data</button>`
+  
+### Examples
+
+1. Try it with an Active Search example that uses the `jsonplaceholder.typicode.com/users` endpoint:
+
+   [View Example](https://raw.githack.com/jay23606/minimal-htmx/master/ex1.html)
+
+2. 'Active Search' examples are also provided for both ASP (classic, JScript) and ASPX (C# web forms). Additionally, the `min-htmx` project includes a Razor page usage example (cshtml).
+
+### Additional Demos
+
+- Demo of `hx-class.js` extension: This allows you to dynamically add attributes to elements in a similar fashion that class lets you add CSS classes, but it uses YAML. It relies on HTMX from [htmx.org](https://htmx.org) and an external YAML parser.
+
+   [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex3.html)
+
+- Version that uses `mhtmx.js` and a minimal custom YAML parser to extract data for the `hx-class` attribute (self-contained).
+
+   [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex4.html)
