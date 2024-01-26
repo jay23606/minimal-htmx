@@ -13,17 +13,13 @@
 	const parseYamlish = (text) => {
 		const getNextIdx = (m, i, t) => m[i + 1] ? t.indexOf(m[i + 1], t.indexOf(m[i])) : t.length;
 		const obj = {};
-		const parseClass = (classText, level) => {
-			const clsObj = {};
-			const regex = new RegExp(`^\\s{${4 * level}}([-_\\w:.]+):`, 'gm');
+		const parse = (classText, level) => {
+			const clsObj = {}, regex = new RegExp(`^\\s{${4 * level}}([-_\\w:.]+):`, 'gm');
 			const propMatches = classText.match(regex) || [];
 			let lastIndex = 0;
 			propMatches.forEach((propMatch, j) => {
-				const prop = propMatch.trim().slice(0, -1);
-				const propStartIdx = classText.indexOf(propMatch, lastIndex);
 				const propEndIdx = getNextIdx(propMatches, j, classText);
-				const value = classText.substring(propStartIdx + propMatch.length, propEndIdx);
-				clsObj[prop] = parseClass(value, level + 1);
+				clsObj[propMatch.trim().slice(0, -1)] = parse(classText.substring(classText.indexOf(propMatch, lastIndex) + propMatch.length, propEndIdx), level + 1);
 				lastIndex = propEndIdx;
 			});
 			if (Object.keys(clsObj).length === 0) return classText.trim();
@@ -32,11 +28,8 @@
 		const classMatches = text.match(/^([-_\w:.]+):/gm) || [];
 		let lastIndex = 0;
 		classMatches.forEach((clsMatch, i) => {
-			const cls = clsMatch.trim().slice(0, -1);
-			const clsStartIdx = text.indexOf(clsMatch, lastIndex);
 			const clsEndIdx = getNextIdx(classMatches, i, text);
-			const clsValue = text.substring(clsStartIdx + clsMatch.length, clsEndIdx);
-			obj[cls] = parseClass(clsValue, 1);
+			obj[clsMatch.trim().slice(0, -1)] = parse(text.substring(text.indexOf(clsMatch, lastIndex) + clsMatch.length, clsEndIdx), 1);
 			lastIndex = clsEndIdx;
 		});
 		return obj;
