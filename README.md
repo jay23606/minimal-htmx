@@ -10,3 +10,7 @@ I've also added an 'Active Search' example for both ASP (classic, JScript) and A
 Demo of hx-class.js extension that lets you dynamically add attributes to elements in a similar fashion that class lets you add CSS classes but it uses yaml:
 
 https://raw.githack.com/jay23606/minimal-htmx/master/ex3.html
+
+Version that uses minimal-htmx (mhtmx.js) and minimal custom YAML parser
+
+https://raw.githack.com/jay23606/minimal-htmx/master/ex4.html
