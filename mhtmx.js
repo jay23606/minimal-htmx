@@ -76,7 +76,7 @@
 		const data = await response.text();
 		applySwap(targetEl, data, hxSwap, hxSelect);
 		if (hxAfter) (new Function('data', 'el', hxAfter))(data, el);
-		processAttrs();
+		run();
 	};
 
 	const json = (s, el) => s ? (s.startsWith('js:') ? Function('el',`return ${s.slice(3)}`)(el) : JSON.parse(s.replace(/'/g, '"'))) : {};
