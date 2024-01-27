@@ -59,3 +59,5 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 - Version that uses `mhtmx.js` and a minimal custom YAML parser to extract data for the `hx-class` attribute (self-contained).
 
    [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex4.html)
+  
+   [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex5.html)
