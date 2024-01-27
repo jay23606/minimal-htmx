@@ -1,8 +1,8 @@
 (() => {
 	HTMLElement.prototype.on = function(e, fn) { return this.addEventListener(e, fn) }
 	HTMLElement.prototype.attr = function(a, v) { return v === undefined ? this.getAttribute(a) : (this.setAttribute(a, v), this) }
-	//HTMLElement.prototype.$ = function(s) { return this.querySelector(s)) }
-	//HTMLElement.prototype.$$ = function(s) { return this.querySelectorAll(s)) }
+	//HTMLElement.prototype.$ = function(s) { return this.querySelector(s) }
+	HTMLElement.prototype.$$ = function(s) { return this.querySelectorAll(s) }
 	
 	const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
 	const $DP = (htm, sel = '') => (new DOMParser().parseFromString(htm, 'text/html').querySelector(sel)?.innerHTML || '');
@@ -17,7 +17,7 @@
 		const getNextIdx = (m, i, t) => m[i + 1] ? t.indexOf(m[i + 1], t.indexOf(m[i])) : t.length;
 		const obj = {};
 		const parse = (classText, level) => {
-			const clsObj = {}, regex = new RegExp(`^\\s{${4 * level}}([-_\\w:.]+):`, 'gm');
+			const clsObj = {}, regex = new RegExp(`^\\t{${level}}([-_\\w:.]+):`, 'gm'); //new RegExp(`^\\s{${4 * level}}([-_\\w:.]+):`, 'gm'); //tabs or 4 spaces, can't have both
 			const propMatches = classText.match(regex) || [];
 			let lastIndex = 0;
 			propMatches.forEach((propMatch, j) => {
@@ -58,7 +58,7 @@
 		if(firstTime) $$('[hx-class]').forEach(el => applyClassAttrs(el, el.attr('hx-class')));
 		['get', 'post', 'put', 'delete', 'patch'].forEach(verb => $$(`[hx-${verb}]:not([hx-applied])`)
 		.forEach(el => {
-			if(!firstTime) applyClassAttrs(el, el.attr('hx-class'));
+			if(!firstTime) applyClassAttrs(el, el.attr('hx-class')); 
 			const hxTarget = el.attr('hx-target'), hxTrigger = el.attr('hx-trigger');
 			const targetEl = hxTarget ? $(hxTarget) : el, hxLoad = el.attr('hx-load');
 			el instanceof HTMLFormElement
