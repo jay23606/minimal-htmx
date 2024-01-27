@@ -61,7 +61,7 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 
    [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex1.html)
 
-- Demo of `hx-class.js` extension that uses HTMX from [htmx.org](https://htmx.org) and an external YAML parser.
+- Demo of `hx-class.js` extension that uses HTMX from https://htmx.org and an external YAML parser.
 
    [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex3.html)
   
