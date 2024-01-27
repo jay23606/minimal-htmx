@@ -13,11 +13,11 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 - **Example:** `<button hx-get="/api/data" hx-target="#result">Load Data</button>`
 
 ## `hx-target`
-- **Description:** Specifies the target element where the fetched data will be applied.
+- **Description:** Specifies the target element where the fetched data will be applied (defaults to this.innerHTML).
 - **Example:** `<button hx-get="/api/data" hx-target="#result">Load Data</button>`
 
 ## `hx-trigger`
-- **Description:** Overrides the default event type that triggers data fetching (default: 'click' or 'change' for inputs).
+- **Description:** Overrides the default event type that triggers data fetching (default: 'click', 'change' for inputs, 'submit' for forms).
 - **Example:** `<input type="text" hx-get="/api/search" hx-trigger="keyup">`
 
 ## `hx-before`
@@ -45,13 +45,11 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 - **Example:** `<button hx-get="/api/data" hx-target="#result" hx-select="p">Load Data</button>`
 
 ## `hx-load`
-
 - **Description:** Specifies a JavaScript function to run when the element is first introduced
 - **Example:** `<button hx-class="fun" hx-load="el.click()">Next</button>`
 
 ## `hx-applied`
-
-- **Description:** This attribute is applied automatically and is used to keep track of whether a new element with a http verb is introduced
+- **Description:** This attribute is applied automatically and is used to keep track of whether a new element with a http verb is introduced (only elements with verbs are considered)
 
 ## Examples
 
