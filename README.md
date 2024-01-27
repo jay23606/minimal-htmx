@@ -46,7 +46,7 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 
 ## `hx-load`
 
-- **Description:** Specifies a JavaScript function to run once when the element is first introduced
+- **Description:** Specifies a JavaScript function to run when the element is first introduced
   
 - **Example:**
   ```html
