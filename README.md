@@ -9,7 +9,7 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 - **Example:** `<div hx-class="my-class my-class2">...</div>`
 
 ## `hx-get`, `hx-post`, `hx-put`, `hx-delete`, `hx-patch`
-- **Description:** Initiates a fetch on specific events (e.g., click, change) using different HTTP methods.
+- **Description:** Initiates a fetch on specific events (e.g., click, change) using different HTTP verbs (required).
 - **Example:** `<button hx-get="/api/data" hx-target="#result">Load Data</button>`
 
 ## `hx-target`
