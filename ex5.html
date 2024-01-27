@@ -17,6 +17,7 @@ const incrementHxGet = (btn, increment) => {
 	const baseUrl = url.substring(0, url.lastIndexOf('/') + 1);
 	const postId = document.getElementById('postId');
 	postId.innerText = Number(postId.innerText) + increment;
+	if(postId.innerText === '0') postId.innerText = '1';
 	btn.setAttribute('hx-get', baseUrl + postId.innerText);
 }
 const formatIt = (data,el,targetEl) => {
