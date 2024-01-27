@@ -1,6 +1,6 @@
 ## minimal-htmx (mhtmx.js)
 
-A minimal implementation of HTMX that I am writing to understand how HTMX might work without looking at the HTMX source code. I also added a few of my own attributes that I thought might be useful.
+A minimal implementation of HTMX that I am writing to understand how HTMX might work without looking at the HTMX source code. I also added a few of my own attributes that I thought might be useful such as hx-class. Doesn't go into as much detail with different events and doesn't currently expose an API.
 
 ## Documentation
 
