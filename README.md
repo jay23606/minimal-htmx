@@ -37,7 +37,7 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 - **Example:** `<button hx-get="/api/data" hx-vals="{ 'param1': 'value1', 'param2': getInputValue() }">Load Data</button>`
 
 ## `hx-swap`
-- **Description:** Specifies how the fetched data should be applied to the target element ('outerHTML', 'append', 'prepend', 'before', 'after', 'innerHTML', 'none').
+- **Description:** Specifies how the fetched data should be applied to the target element (outerHTML, append, prepend, before, after, innerHTML, none).
 - **Example:** `<button hx-get="/api/data" hx-target="#result" hx-swap="append">Load Data</button>`
 
 ## `hx-select`
