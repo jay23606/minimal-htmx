@@ -9,7 +9,7 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 - **Example:** `<div hx-class="my-class my-class2">...</div>`
 
 ## `hx-get`, `hx-post`, `hx-put`, `hx-delete`, `hx-patch`
-- **Description:** Initiates a data-fetching action on specific events (e.g., click, change) using different HTTP methods.
+- **Description:** Initiates a fetch on specific events (e.g., click, change) using different HTTP methods.
 - **Example:** `<button hx-get="/api/data" hx-target="#result">Load Data</button>`
 
 ## `hx-target`
@@ -21,19 +21,19 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 - **Example:** `<input type="text" hx-get="/api/search" hx-trigger="keyup">`
 
 ## `hx-before`
-- **Description:** Executes JavaScript code before the data-fetching action.
+- **Description:** Executes JavaScript code before fetch.
 - **Example:** `<button hx-get="/api/data" hx-before="console.log('Before fetching data')">Load Data</button>`
 
 ## `hx-after`
-- **Description:** Executes JavaScript code after the data-fetching action.
+- **Description:** Executes JavaScript code after fetch.
 - **Example:** `<button hx-get="/api/data" hx-after="handleData">Load Data</button>`
 
 ## `hx-headers`
-- **Description:** Specifies additional headers for the data-fetching request.
+- **Description:** Specifies additional headers for the fetch.
 - **Example:** `<button hx-get="/api/data" hx-headers="{'Authorization': 'Bearer token'}">Load Data</button>`
 
 ## `hx-vals`
-- **Description:** Defines values to be sent with the data-fetching request (supports JavaScript expressions).
+- **Description:** Defines values to be sent with the fetch (supports JavaScript expressions using js:functionName(event)).
 - **Example:** `<button hx-get="/api/data" hx-vals="{ 'param1': 'value1', 'param2': getInputValue() }">Load Data</button>`
 
 ## `hx-swap`
