@@ -53,16 +53,6 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 
 ## Examples
 
-- Try it with an Active Search example that uses the `jsonplaceholder.typicode.com/users` endpoint:
-
-   [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex1.html)
-
-- 'Active Search' examples are also provided for both ASP (classic, JScript) and ASPX (C# web forms). Additionally, the `min-htmx` project includes a Razor page usage example (cshtml).
-
-- Demo of `hx-class.js` extension: This allows you to dynamically add attributes to elements in a similar fashion that class lets you add CSS classes, but it uses YAML. It relies on HTMX from [htmx.org](https://htmx.org) and an external YAML parser.
-
-   [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex3.html)
-
 - Version that uses `mhtmx.js` and a minimal custom YAML parser to extract data for the `hx-class` attribute (self-contained).
 
    [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex4.html)
@@ -70,3 +60,13 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 - Another self-contained version that shows paging through posts and using a span to store the postId
   
    [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex5.html)
+
+- Try it with an Active Search example:
+
+   [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex1.html)
+
+- 'Active Search' examples are also provided for both ASP (classic, JScript) and ASPX (C# web forms). Additionally, the `min-htmx` project includes a Razor page usage example (cshtml).
+
+- Demo of `hx-class.js` extension that uses HTMX from [htmx.org](https://htmx.org) and an external YAML parser.
+
+   [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex3.html)
