@@ -38,38 +38,6 @@
 		return obj;
 	};
 	
-	const parseYamlish5 = (text) => {
-		const getNextIdx = (m, i, t) => (m[i + 1] ? t.indexOf(m[i + 1], t.indexOf(m[i])) : t.length);
-		const parseProperty = (propText, level) => {
-			const propObj = {};
-			const regex = new RegExp(`^\\s{${4 * level}}([-_\\w:.]+):`, 'gm');
-			const propMatches = propText.match(regex) || [];
-			let lastIndex = 0;
-			propMatches.forEach((propMatch, j) => {
-				const [prop, propStartIdx, propEndIdx] = [
-					propMatch.trim().slice(0, -1),
-					propText.indexOf(propMatch, lastIndex),
-					getNextIdx(propMatches, j, propText)];
-				propObj[prop] = parseProperty(propText.substring(propStartIdx + propMatch.length, propEndIdx), level + 1);
-				lastIndex = propEndIdx;
-			});
-
-			return Object.keys(propObj).length === 0 ? propText.trim() : propObj;
-		};
-		const obj = {},
-			classMatches = text.match(/^([-_\w:.]+):/gm) || [];
-		let lastIndex = 0;
-		classMatches.forEach((clsMatch, i) => {
-			const [cls, clsStartIdx, clsEndIdx] = [
-				clsMatch.trim().slice(0, -1),
-				text.indexOf(clsMatch, lastIndex),
-				getNextIdx(classMatches, i, text)];
-			obj[cls] = parseProperty(text.substring(clsStartIdx + clsMatch.length, clsEndIdx), 1);
-			lastIndex = clsEndIdx;
-		});
-		return obj;
-	};
-	
 	const applyAttrs = (el, attrs) => Object.entries(attrs).forEach(([key, value]) => el.attr(key, value));
    
 	const applyClassAttrs = (el, classNames) => {
