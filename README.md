@@ -5,7 +5,7 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 ## Documentation
 
 ## `hx-class`
-- **Description:** Applies YAML-defined attributes to HTML elements based on their classes.
+- **Description:** Applies YAML-defined attributes to HTML elements based on their classes (attribute can appear on any element on first load but fetched elements must have a verb)
 - **Example:** `<div hx-class="my-class my-class2">...</div>`
 
 ## `hx-get`, `hx-post`, `hx-put`, `hx-delete`, `hx-patch`
