@@ -52,6 +52,9 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
   ```html
   <button hx-class="fun" hx-load="el.click()">Next</button>
 
+## `hx-applied`
+
+- **Description:** This attribute is applied automatically and is used to keep track of whether a new element with a http verb is introduced
 
 ## Examples
 
