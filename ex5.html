@@ -1,0 +1,49 @@
+<script type="text/yaml">
+fun:
+    hx-get:    https://jsonplaceholder.typicode.com/posts/0
+    hx-target: #target
+    hx-after:  formatIt(data,el,targetEl)
+    hx-swap:   none
+</script>
+
+<script src="mhtmx.js"></script>
+
+<h3>Post from jsonplaceholder.typicode.com/posts/<span id='postId'></span></h3>
+
+<button hx-class="fun" onclick="incrementHxGet(this, -1)">Prev</button>
+<button hx-class="fun" hx-load="el.click()" onclick="incrementHxGet(this, 1)">Next</button>
+
+<div id='target'></div>
+
+
+<script>
+
+const incrementHxGet = (btn, increment) => {
+	const postId = document.getElementById('postId');
+	const url = btn.getAttribute('hx-get');
+	const lastSlashIndex = url.lastIndexOf('/');
+	let incrementedLastPart = String(Number((postId.textContent)?postId.textContent:url.substring(lastSlashIndex + 1)) + Number(increment));
+	if(incrementedLastPart < 1) incrementedLastPart = 1;
+	postId.textContent = incrementedLastPart;
+	const incrementedUrl = url.substring(0, lastSlashIndex + 1) + incrementedLastPart;
+	btn.setAttribute('hx-get', incrementedUrl);
+}
+
+const formatIt = (data,el,targetEl) => {
+	const postData = JSON.parse(data);
+	const html = `<table>
+		<tr>
+			<th>Key</th>
+			<th>Value</th>
+		</tr>
+		${Object.entries(postData).map(([key, value]) => `
+			<tr>
+				<td>${key}</td>
+				<td>${value}</td>
+			</tr>
+		`).join('')}
+	</table>`;
+	targetEl.innerHTML = html;
+}
+
+</script>
