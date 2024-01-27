@@ -43,7 +43,16 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 ## `hx-select`
 - **Description:** Specifies a selector to extract content from the fetched data before applying it to the target element.
 - **Example:** `<button hx-get="/api/data" hx-target="#result" hx-select="p">Load Data</button>`
+
+## `hx-load`
+
+- **Description:** Specifies a JavaScript function to run once when the element is first introduced
   
+- **Example:**
+  ```html
+  <button hx-class="fun" hx-load="el.click()">Next</button>
+
+
 ## Examples
 
 - Try it with an Active Search example that uses the `jsonplaceholder.typicode.com/users` endpoint:
