@@ -58,6 +58,7 @@
 		if(firstTime) $$('[hx-class]').forEach(el => applyClassAttrs(el, el.attr('hx-class')));
 		['get', 'post', 'put', 'delete', 'patch'].forEach(verb => $$(`[hx-${verb}]:not([hx-applied])`)
 		.forEach(el => {
+			if(!firstTime) applyClassAttrs(el, el.attr('hx-class'));
 			const hxTarget = el.attr('hx-target'), hxTrigger = el.attr('hx-trigger');
 			const targetEl = hxTarget ? $(hxTarget) : el, hxLoad = el.attr('hx-load');
 			el instanceof HTMLFormElement
