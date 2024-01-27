@@ -60,4 +60,6 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 
    [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex4.html)
   
+- Another self-contained version that shows paging through posts and using a span to store the postId
+  
    [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex5.html)
