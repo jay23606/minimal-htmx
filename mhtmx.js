@@ -84,7 +84,7 @@
 		run();
 	};
 
-	const json = (s, el) => s ? (s.startsWith('js:') ? Function('el', `return ${s.slice(3)}`)(el) : JSON.parse(s.replace(/'/g, '"'))) : {};
+	const json = (s, el) => s ? (s.startsWith('js:') ? Function('event', `return ${s.slice(3)}`)(event) : JSON.parse(s.replace(/'/g, '"'))) : {};
 	
 	const applySwap = (el, data, hxSwap, hxSelect) => {
 		if (hxSwap === 'none') return;
