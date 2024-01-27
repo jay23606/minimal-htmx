@@ -1,13 +1,16 @@
 (() => {
-	HTMLElement.prototype.on = function (e, fn) { return this.addEventListener(e, fn) }
-	HTMLElement.prototype.attr = function (a, v) { return v === undefined ? this.getAttribute(a) : (this.setAttribute(a, v), this) }
+	HTMLElement.prototype.on = function(e, fn) { return this.addEventListener(e, fn) }
+	HTMLElement.prototype.attr = function(a, v) { return v === undefined ? this.getAttribute(a) : (this.setAttribute(a, v), this) }
+	//HTMLElement.prototype.$ = function(s) { return this.querySelector(s)) }
+	//HTMLElement.prototype.$$ = function(s) { return this.querySelectorAll(s)) }
+	
 	const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
 	const $DP = (htm, sel = '') => (new DOMParser().parseFromString(htm, 'text/html').querySelector(sel)?.innerHTML || '');
 	$el = (el, attrs = {}) => Object.assign(document.createElement(el), attrs);
 	
 	//document.addEventListener('DOMContentLoaded', () => loadScript('https://cdn.jsdelivr.net/npm/js-yaml/dist/js-yaml.min.js', () => run()));
 	
-	document.addEventListener('DOMContentLoaded', () => run());
+	document.addEventListener('DOMContentLoaded', () => run(true));
 	
 	//Minimal custom YAML parser
 	const parseYamlish = (text) => {
@@ -35,6 +38,38 @@
 		return obj;
 	};
 	
+	const parseYamlish5 = (text) => {
+		const getNextIdx = (m, i, t) => (m[i + 1] ? t.indexOf(m[i + 1], t.indexOf(m[i])) : t.length);
+		const parseProperty = (propText, level) => {
+			const propObj = {};
+			const regex = new RegExp(`^\\s{${4 * level}}([-_\\w:.]+):`, 'gm');
+			const propMatches = propText.match(regex) || [];
+			let lastIndex = 0;
+			propMatches.forEach((propMatch, j) => {
+				const [prop, propStartIdx, propEndIdx] = [
+					propMatch.trim().slice(0, -1),
+					propText.indexOf(propMatch, lastIndex),
+					getNextIdx(propMatches, j, propText)];
+				propObj[prop] = parseProperty(propText.substring(propStartIdx + propMatch.length, propEndIdx), level + 1);
+				lastIndex = propEndIdx;
+			});
+
+			return Object.keys(propObj).length === 0 ? propText.trim() : propObj;
+		};
+		const obj = {},
+			classMatches = text.match(/^([-_\w:.]+):/gm) || [];
+		let lastIndex = 0;
+		classMatches.forEach((clsMatch, i) => {
+			const [cls, clsStartIdx, clsEndIdx] = [
+				clsMatch.trim().slice(0, -1),
+				text.indexOf(clsMatch, lastIndex),
+				getNextIdx(classMatches, i, text)];
+			obj[cls] = parseProperty(text.substring(clsStartIdx + clsMatch.length, clsEndIdx), 1);
+			lastIndex = clsEndIdx;
+		});
+		return obj;
+	};
+	
 	const applyAttrs = (el, attrs) => Object.entries(attrs).forEach(([key, value]) => el.attr(key, value));
    
 	const applyClassAttrs = (el, classNames) => {
@@ -51,17 +86,19 @@
 	//	document.head.appendChild(script);
 	//};
 	
-	const run = () => {
-		$$('[hx-class]').forEach(el => applyClassAttrs(el, el.attr('hx-class')));
+	const run = (firstTime) => {
+		if(firstTime) $$('[hx-class]').forEach(el => applyClassAttrs(el, el.attr('hx-class')));
 		['get', 'post', 'put', 'delete', 'patch'].forEach(verb => $$(`[hx-${verb}]:not([hx-applied])`)
 		.forEach(el => {
-			const url = el.attr(`hx-${verb}`), hxTarget = el.attr('hx-target'), hxTrigger = el.attr('hx-trigger');
-			const targetEl = hxTarget ? $(hxTarget) : el;
+			const hxTarget = el.attr('hx-target'), hxTrigger = el.attr('hx-trigger');
+			const targetEl = hxTarget ? $(hxTarget) : el, hxLoad = el.attr('hx-load');
 			el instanceof HTMLFormElement
-				? el.on('submit', async e => (e.preventDefault(), await fetchData(url, targetEl, el, { method: verb, body: new URLSearchParams(new FormData(el)) })))
-				: el.on(hxTrigger || getEventType(el), async () => await fetchData(url, targetEl, el, { method: verb }));
+				? el.on('submit', async e => (e.preventDefault(), await fetchData(el.attr(`hx-${verb}`), targetEl, el, { method: verb, body: new URLSearchParams(new FormData(el)) })))
+				: el.on(hxTrigger || getEventType(el), async () => await fetchData(el.attr(`hx-${verb}`), targetEl, el, { method: verb }));
 			el.attr('hx-applied', 'true');
+			if(hxLoad) (new Function('el', 'targetEl', hxLoad))(el, targetEl);
 		}));
+		
 	};
 
 	const getEventType = el => el instanceof HTMLInputElement || el instanceof HTMLSelectElement || el instanceof HTMLTextAreaElement ? 'change' : 'click';
@@ -69,17 +106,17 @@
 	const fetchData = async (url, targetEl, el, options = {}) => {
 		const hxBefore = el.attr('hx-before'), hxAfter = el.attr('hx-after'), hxHeaders = el.attr('hx-headers'),
 			hxVals = el.attr('hx-vals'), hxSwap = el.attr('hx-swap'), hxSelect = el.attr('hx-select');
-		if (hxBefore) (new Function('event', hxBefore))(event);
+		if (hxBefore) (new Function('el', 'targetEl', hxBefore))(el, targetEl);
 		const method = options.method || 'get';
 		if (hxVals) method === 'get' ? url += '?' + new URLSearchParams(json(hxVals,el)) : options.body = json(hxVals,el);
 		const response = await fetch(url, { ...options, method, headers: { ...options.headers, ...json(hxHeaders) } });
 		const data = await response.text();
 		applySwap(targetEl, data, hxSwap, hxSelect);
-		if (hxAfter) (new Function('data', 'el', hxAfter))(data, el);
+		if (hxAfter) (new Function('data', 'el', 'targetEl', hxAfter))(data, el, targetEl);
 		run();
 	};
 
-	const json = (s, el) => s ? (s.startsWith('js:') ? Function('el',`return ${s.slice(3)}`)(el) : JSON.parse(s.replace(/'/g, '"'))) : {};
+	const json = (s, el) => s ? (s.startsWith('js:') ? Function('el', `return ${s.slice(3)}`)(el) : JSON.parse(s.replace(/'/g, '"'))) : {};
 	
 	const applySwap = (el, data, hxSwap, hxSelect) => {
 		if (hxSwap === 'none') return;
