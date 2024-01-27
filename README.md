@@ -65,4 +65,4 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 
    [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex3.html)
   
-- 'Active Search' examples are also provided for both ASP (classic, JScript) and ASPX (C# web forms). Additionally, the `min-htmx` project includes a Razor page usage example (these examples use an earlier implementation)
+- 'Active Search' examples are also provided for both ASP (classic, JScript) and ASPX (C# web forms). Additionally, the `min-htmx` project includes a Razor page usage example (these examples use an earlier implementation however)
