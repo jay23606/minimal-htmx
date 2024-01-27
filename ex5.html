@@ -1,23 +1,17 @@
 <script type="text/yaml">
 fun:
-    hx-get:    https://jsonplaceholder.typicode.com/posts/0
+    hx-get:    https://jsonplaceholder.typicode.com/posts/
     hx-target: #target
     hx-after:  formatIt(data,el,targetEl)
     hx-swap:   none
 </script>
-
 <script src="mhtmx.js"></script>
-
-<h3>Post from jsonplaceholder.typicode.com/posts/<span id='postId'></span></h3>
-
+<h3>Post from jsonplaceholder.typicode.com/posts/<span id='postId'>0</span></h3>
 <button hx-class="fun" onclick="incrementHxGet(this, -1)">Prev</button>
 <button hx-class="fun" hx-load="el.click()" onclick="incrementHxGet(this, 1)">Next</button>
-
 <div id='target'></div>
 
-
 <script>
-
 const incrementHxGet = (btn, increment) => {
 	const url = btn.getAttribute('hx-get');
 	const baseUrl = url.substring(0, url.lastIndexOf('/') + 1);
@@ -25,7 +19,6 @@ const incrementHxGet = (btn, increment) => {
 	postId.innerText = Number(postId.innerText) + increment;
 	btn.setAttribute('hx-get', baseUrl + postId.innerText);
 }
-
 const formatIt = (data,el,targetEl) => {
 	const postData = JSON.parse(data);
 	const html = `<table>
@@ -42,5 +35,4 @@ const formatIt = (data,el,targetEl) => {
 	</table>`;
 	targetEl.innerHTML = html;
 }
-
 </script>
