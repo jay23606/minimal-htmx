@@ -19,14 +19,11 @@ fun:
 <script>
 
 const incrementHxGet = (btn, increment) => {
-	const postId = document.getElementById('postId');
 	const url = btn.getAttribute('hx-get');
-	const lastSlashIndex = url.lastIndexOf('/');
-	let incrementedLastPart = String(Number((postId.textContent)?postId.textContent:url.substring(lastSlashIndex + 1)) + Number(increment));
-	if(incrementedLastPart < 1) incrementedLastPart = 1;
-	postId.textContent = incrementedLastPart;
-	const incrementedUrl = url.substring(0, lastSlashIndex + 1) + incrementedLastPart;
-	btn.setAttribute('hx-get', incrementedUrl);
+	const baseUrl = url.substring(0, url.lastIndexOf('/') + 1);
+	const postId = document.getElementById('postId');
+	postId.innerText = Number(postId.innerText) + increment;
+	btn.setAttribute('hx-get', baseUrl + postId.innerText);
 }
 
 const formatIt = (data,el,targetEl) => {
