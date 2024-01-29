@@ -26,7 +26,6 @@
 	}
 	
 	document.body.on('submit', 'form', async function(e) {
-		console.log(1);
 		e.preventDefault();
 		const method = this.attr('method') || 'POST';
 		let url = this.attr('action');
