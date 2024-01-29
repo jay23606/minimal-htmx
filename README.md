@@ -10,7 +10,7 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 
 ***I also realized that I needed to apply the script nodes separately from other node types and trigger a load in some cases for things to work correctly for the demo***
 
-## Documentation
+## Documentation (mhtmx.js)
 
 ## `hx-class`
 - **Description:** Applies YAML-defined attributes to HTML elements based on their classes (attribute can appear on any element on first load but fetched elements must have a verb). For mhtmx.js It is not a full YAML parser and it only understands tabs and not spaces to denote structure!
