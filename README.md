@@ -1,10 +1,10 @@
-## minimal-htmx (mhtmx.js)
+## minimal-htmx
 
 A minimal implementation of HTMX that I am writing to understand how HTMX might work without looking at the HTMX source code. I also added a few of my own attributes that I thought might be useful such as hx-class. Doesn't go into as much detail with different events and doesn't currently expose an API.
 
 ***I've revised what I consider a minimal implementation of htmx to include 'fixes' for ONLY form and anchor tags and you can see a demo of how that works here:***
 
-[View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/mhtmx.html)
+[Demo of mhtmx.html](https://raw.githack.com/jay23606/minimal-htmx/master/mhtmx.html)
 
 ***It also includes handling the back button correctly using History API***
 
@@ -63,14 +63,14 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
   
 - Shows paging through posts and using a span to store the postId
   
-   [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex5.html)
+   [Demo of mhtmx.js](https://raw.githack.com/jay23606/minimal-htmx/master/ex5.html)
 
 - Active Search example:
 
-   [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex1.html)
+   [Demo of active search](https://raw.githack.com/jay23606/minimal-htmx/master/ex1.html)
 
 - Demo of `hx-class.js` extension that uses HTMX from https://htmx.org and an external YAML parser.
 
-   [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex3.html)
+   [Demo using hx-class](https://raw.githack.com/jay23606/minimal-htmx/master/ex3.html)
   
 - 'Active Search' examples are also provided for both ASP (classic, JScript) and ASPX (C# web forms). Additionally, the `min-htmx` project includes a Razor page usage example (these examples use an earlier implementation however)
