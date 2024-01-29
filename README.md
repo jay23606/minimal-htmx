@@ -2,7 +2,7 @@
 
 A minimal implementation of HTMX that I am writing to understand how HTMX might work without looking at the HTMX source code. I also added a few of my own attributes that I thought might be useful such as hx-class. Doesn't go into as much detail with different events and doesn't currently expose an API.
 
-***I've revised what I consider a minimal implementation of htmx to include fixes for ONLY form and anchor tags and you can see a demo of how that works here:***
+***I've revised what I consider a minimal implementation of htmx to include 'fixes' for ONLY form and anchor tags and you can see a demo of how that works here:***
 
 [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/mhtmx.html)
 
