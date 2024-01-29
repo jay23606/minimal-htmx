@@ -6,6 +6,8 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 
 [View Demo](https://raw.githack.com/jay23606/minimal-htmx/master/mhtmx.html)
 
+***It also includes handling the back button correctly using History API***
+
 ## Documentation
 
 ## `hx-class`
