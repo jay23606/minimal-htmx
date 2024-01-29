@@ -63,14 +63,14 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
   
 - Shows paging through posts and using a span to store the postId
   
-   [Demo of mhtmx.js](https://raw.githack.com/jay23606/minimal-htmx/master/ex5.html)
+   [Old demo of mhtmx.js](https://raw.githack.com/jay23606/minimal-htmx/master/ex5.html)
 
 - Active Search example:
 
-   [Demo of active search](https://raw.githack.com/jay23606/minimal-htmx/master/ex1.html)
+   [Older Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex1.html)
 
 - Demo of `hx-class.js` extension that uses HTMX from https://htmx.org and an external YAML parser.
 
-   [Demo using hx-class](https://raw.githack.com/jay23606/minimal-htmx/master/ex3.html)
+   [Extension Demo](https://raw.githack.com/jay23606/minimal-htmx/master/ex3.html)
   
 - 'Active Search' examples are also provided for both ASP (classic, JScript) and ASPX (C# web forms). Additionally, the `min-htmx` project includes a Razor page usage example (these examples use an earlier implementation however)
