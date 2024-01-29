@@ -8,7 +8,7 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 
 ***It also includes handling the back button correctly using History API***
 
-***I also realized that I needed to consider the script nodes separately from other node types and trigger a load in some cases for things to work correctly in the demo***
+***I also realized that I needed to apply the script nodes separately from other node types and trigger a load in some cases for things to work correctly in the demo***
 
 ## Documentation
 
