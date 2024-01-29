@@ -4,7 +4,7 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 
 ***I've revised what I consider a minimal implementation of htmx to include 'fixes' for ONLY form and anchor tags and you can see a demo of how that works here:***
 
-[Demo of mhtmx.html](https://raw.githack.com/jay23606/minimal-htmx/master/mhtmx.html)
+[Demo using min-htmx.js](https://raw.githack.com/jay23606/minimal-htmx/master/mhtmx.html)
 
 ***It also includes handling the back button correctly using History API***
 
