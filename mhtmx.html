@@ -1,0 +1,70 @@
+<form id="myForm" action="ex1.html" method="GET">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="Jay" required><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" value="jay@jay.com" required><br>
+    <input type="submit" value="Submit">
+</form>
+<form id="myForm2" action="ex2.html" method="POST">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="Bob" required><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" value="Bob@bob.com" required><br>
+    <input type="submit" value="Submit">
+</form>
+<a href="ex5.html">ex1</a>
+<script>
+(()=>{
+	const isSameDomain = (url) => ((a) => (a.href = url, a).hostname === location.hostname || !a.hostname)(document.createElement('a'));
+	HTMLElement.prototype.attr = function(a, v) { return v === undefined ? this.getAttribute(a) : (this.setAttribute(a, v), this) }
+	HTMLElement.prototype.on = function(ev, selOrFn, fn) {
+		this.addEventListener(ev, e => {
+			const target = e.target.closest(selOrFn);
+			if (target) typeof selOrFn === 'string' ? fn.call(target, e) : selOrFn(e);
+		});
+		return this;
+	}
+	
+	document.body.on('submit', 'form', async function(e) {
+		console.log(1);
+		e.preventDefault();
+		const method = this.attr('method') || 'POST';
+		let url = this.attr('action');
+		const formData = new FormData(this);
+		let options = { method };
+		if (method.toUpperCase() === 'GET') {
+			const params = new URLSearchParams(formData);
+			url = `${this.attr('action')}?${params}`;
+		} else options.body = formData;
+		const response = await fetch(url, options);
+		if (response.ok) {
+			this.innerHTML = await response.text();
+			history.pushState({ type: 'form', url: url, method: method, html: this.innerHTML }, '', url);
+		} else console.log(await response.text());
+	});
+
+	document.body.on('click', 'a', async function(e) {
+		e.preventDefault();
+		const url = this.attr('href');
+		if (isSameDomain(url)) {
+			const response = await fetch(url);
+			if (response.ok) {
+				document.body.innerHTML = await response.text();
+				history.pushState({ type: 'link', url: url, html: document.body.innerHTML }, '', url);
+			} else console.log(await response.text());
+		} else location.href = this.attr('href');
+	});
+
+	window.addEventListener('popstate', function(event) {
+		const state = event.state;
+		if (state) {
+			if (state.type === 'form') {
+				const form = document.querySelector(`form[action="${state.url}"][method="${state.method}"]`);
+				if (form) form.innerHTML = state.html;
+			} else if (state.type === 'link') document.body.innerHTML = state.html;
+		}
+	});
+
+	history.replaceState({ type: 'link', url: document.location.href, html: document.body.innerHTML }, '', document.location.href);
+})();
+</script>
