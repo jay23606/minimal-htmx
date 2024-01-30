@@ -6,13 +6,7 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 
 [Demo using min-htmx.js](https://raw.githack.com/jay23606/minimal-htmx/master/mhtmx.html)
 
-In this version I am not adding any custom attributes and by default form elements get replaced by the response of the fetch request and anchor elements replace document.body
-
-It also includes handling the back button correctly using History API
-
-I am also attaching form submit and anchor click events to document.body so that things like htmx.process(el) are not as needed
-
-I also realized that I needed to apply the script nodes separately from other node types and trigger a load in some cases for things to work correctly for the demo
+In this version, default behavior is maintained as form elements are automatically replaced by fetch responses, and anchor elements replace the document.body. The script includes proper handling of the back button through the History API. Events for form submission and anchor clicks are attached to document.body, reducing reliance on actions like htmx.process(element). Additionally, script nodes are applied separately from other node types and in some cases the DOMContentLoaded event is triggered in order for the demo to function as one would expect.
 
 ## Documentation (mhtmx.js)
 
