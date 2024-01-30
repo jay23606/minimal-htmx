@@ -20,13 +20,13 @@
 		let options = { method };
 		if (method.toUpperCase() === 'GET') {
 			const params = new URLSearchParams(formData);
-			url = `${this.attr('action')}?${params}`;
+			url += '?' + params
 		} else options.body = formData;
 		const response = await fetch(url, options);
 		if (response.ok) {
 			const tempDiv = document.createElement('div');
 			tempDiv.innerHTML = await response.text();
-			await replaceWithResponse(tempDiv, this);
+			await replaceWithResponse(tempDiv, this, this.attr('action'));
 			history.pushState({ type: 'form', url: url, method: method, html: this.innerHTML }, '', url);
 		} else console.log(await response.text());
 	});
@@ -39,8 +39,7 @@
 			if (response.ok) {
 				const tempDiv = document.createElement('div');
 				tempDiv.innerHTML = await response.text();
-				await replaceWithResponse(tempDiv, document.body);
-				
+				await replaceWithResponse(tempDiv, document.body, url);
 				history.pushState({ type: 'link', url: url, html: document.body.innerHTML }, '', url);
 			} else console.log(await response.text());
 		} else location.href = this.attr('href');
@@ -55,9 +54,9 @@
 			} else if (state.type === 'link') document.body.innerHTML = state.html;
 		}
 	});
-
-	let loadedBefore = false;
-	const replaceWithResponse = async (tempDiv, targetElement) => {
+	
+	let hasLoaded = {};
+	const replaceWithResponse = async (tempDiv, targetElement, url) => {
 		const nodes = Array.from(tempDiv.childNodes);
 		const [nodesScriptSrc, nodesScriptTextContent, nodesOther] = nodes.reduce((acc, node) => {
 			if (!node.tagName) acc[2].push(node);
@@ -82,13 +81,13 @@
 
 		const loadAllScripts = async (nodesScriptSrc) => {
 			await Promise.all(nodesScriptSrc.map(scriptNode => loadScript(scriptNode.getAttribute('src'))));
-			//console.log('All scripts are loaded!');
-			loadedBefore = true;
+			console.log('Loaded scripts for ' + url);
+			hasLoaded[url] = true;
 			nodesScriptTextContent.forEach(script => document.body.appendChild($el('script', { textContent: script.textContent })));
 			dispatchLoaded();
 		};
 
-		loadedBefore ? dispatchLoaded() : await loadAllScripts(nodesScriptSrc);
+		hasLoaded[url] ? dispatchLoaded() : await loadAllScripts(nodesScriptSrc);
 	};
 
 	history.replaceState({ type: 'link', url: document.location.href, html: document.body.innerHTML }, '', document.location.href);
