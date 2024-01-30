@@ -8,6 +8,8 @@ A minimal implementation of HTMX that I am writing to understand how HTMX might 
 
 ***It also includes handling the back button correctly using History API***
 
+***I am also attaching form submit and anchor click events to document.body so that things like htmx.process are not as necessary***
+
 ***I also realized that I needed to apply the script nodes separately from other node types and trigger a load in some cases for things to work correctly for the demo***
 
 ## Documentation (mhtmx.js)
