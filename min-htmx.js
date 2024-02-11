@@ -52,20 +52,20 @@
 	});
 	
 	const loadHTML = (html, el) => {
-		const div = $el('div', { innerHTML: html });
 		if (el === document.body) el.innerHTML = html;
-		else el.replaceWith(div); 
-		const external = div.$$('script[src]');
+		else el.replaceWith((el = $el('div', { innerHTML: html })));
+		const external = el.$$('script[src]');
 		let loadedScripts = 0;
 		const scriptLoaded = () => {
 			if (!external.length || ++loadedScripts === external.length){
-				div.$$('script:not([src])').forEach(script => (!script.type || script.type === 'text/javascript') && script.replaceWith($el('script', {textContent: script.textContent})));
+				el.$$('script:not([src])').forEach(script => (!script.type || script.type === 'text/javascript') && script.replaceWith($el('script', {textContent: script.textContent})));
 				document.dispatchEvent(new Event('DOMContentLoaded'));
 			}
 		};
 		external.forEach(script => script.replaceWith($el('script', { src: script.src, onload: scriptLoaded })));
 		if(!external.length) scriptLoaded();
 	}
+
 
 	history.replaceState({ type: 'link', url: document.location.href, html: document.body.innerHTML }, '', document.location.href);
 })();
