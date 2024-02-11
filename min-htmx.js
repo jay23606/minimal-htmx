@@ -24,9 +24,7 @@
 		} else options.body = formData;
 		const response = await fetch(url, options);
 		if (response.ok) {
-			const tempDiv = document.createElement('div');
-			tempDiv.innerHTML = await response.text();
-			await replaceWithResponse(tempDiv, this, this.attr('action'));
+			loadHTML(await response.text(), this);
 			history.pushState({ type: 'form', url: url, method: method, html: this.innerHTML }, '', url);
 		} else console.log(await response.text());
 	});
@@ -37,9 +35,7 @@
 		if (isSameDomain(url)) {
 			const response = await fetch(url);
 			if (response.ok) {
-				const tempDiv = document.createElement('div');
-				tempDiv.innerHTML = await response.text();
-				await replaceWithResponse(tempDiv, document.body, url);
+				loadHTML(await response.text(), document.body);
 				history.pushState({ type: 'link', url: url, html: document.body.innerHTML }, '', url);
 			} else console.log(await response.text());
 		} else location.href = this.attr('href');
@@ -55,40 +51,21 @@
 		}
 	});
 	
-	let hasLoaded = {};
-	const replaceWithResponse = async (tempDiv, targetElement, url) => {
-		const nodes = Array.from(tempDiv.childNodes);
-		const [nodesScriptSrc, nodesScriptTextContent, nodesOther] = nodes.reduce((acc, node) => {
-			if (!node.tagName) acc[2].push(node);
-			else {
-				const tagName = node.tagName.toLowerCase();
-				if (tagName === 'script' && node.hasAttribute('src')) acc[0].push(node);
-				else if (tagName === 'script' && node.type !== 'text/yaml') acc[1].push(node);
-				else acc[2].push(node);
+	const loadHTML = (html, el) => {
+		const div = $el('div', { innerHTML: html });
+		if (el === document.body) el.innerHTML = html;
+		else el.replaceWith(div); 
+		const external = div.$$('script[src]');
+		let loadedScripts = 0;
+		const scriptLoaded = () => {
+			if (!external.length || ++loadedScripts === external.length){
+				div.$$('script:not([src])').forEach(script => (!script.type || script.type === 'text/javascript') && script.replaceWith($el('script', {textContent: script.textContent})));
+				document.dispatchEvent(new Event('DOMContentLoaded'));
 			}
-			return acc;
-		}, [[], [], []]);
-
-		const txt = nodesOther.map(node => node.outerHTML || node.textContent).join('');
-		targetElement === document.body ? (targetElement.innerHTML = txt) : (targetElement.outerHTML = txt);
-
-		const loadScript = (src) => new Promise((resolve, reject) => {
-			const script = $el('script', { src, onload: resolve, onerror: reject });
-			document.head.appendChild(script);
-		});
-
-		const dispatchLoaded = () => document.dispatchEvent(new Event('DOMContentLoaded')); //,{ bubbles: true, cancelable: true } needed?
-
-		const loadAllScripts = async (nodesScriptSrc) => {
-			await Promise.all(nodesScriptSrc.map(scriptNode => loadScript(scriptNode.getAttribute('src'))));
-			console.log('Loaded scripts for ' + url);
-			hasLoaded[url] = true;
-			nodesScriptTextContent.forEach(script => document.body.appendChild($el('script', { textContent: script.textContent })));
-			dispatchLoaded();
 		};
-
-		hasLoaded[url] ? dispatchLoaded() : await loadAllScripts(nodesScriptSrc);
-	};
+		external.forEach(script => script.replaceWith($el('script', { src: script.src, onload: scriptLoaded })));
+		if(!external.length) scriptLoaded();
+	}
 
 	history.replaceState({ type: 'link', url: document.location.href, html: document.body.innerHTML }, '', document.location.href);
 })();
